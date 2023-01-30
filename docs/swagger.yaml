@@ -1,0 +1,124 @@
+basePath: /api
+definitions:
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  lib.OutputFormat:
+    properties:
+      code:
+        type: string
+      data: {}
+      errors:
+        items:
+          properties:
+            error:
+              type: string
+            field:
+              type: string
+          type: object
+        type: array
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  model.User:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      size:191;names:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: |-
+    Swagger for backend API service
+    Get the Bearer token on the Authentication Service
+    JSON Link: <a href=/swagger/doc.json>docs.json</a>
+  title: Swagger for Fiber-Ever
+  version: "1.0"
+paths:
+  /user/:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: Email
+        format: email
+        in: formData
+        name: email
+        type: string
+      - description: Username
+        in: formData
+        name: username
+        type: string
+      - description: Password
+        format: password
+        in: formData
+        name: password
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/lib.OutputFormat'
+            - properties:
+                Data:
+                  $ref: '#/definitions/model.User'
+              type: object
+      security:
+      - BearerAuth: []
+      tags:
+      - User
+  /user/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/lib.OutputFormat'
+            - properties:
+                Data:
+                  $ref: '#/definitions/model.User'
+              type: object
+      security:
+      - BearerAuth: []
+      tags:
+      - User
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
