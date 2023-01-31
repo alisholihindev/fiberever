@@ -51,6 +51,13 @@ func valid(email string) bool {
 	return err == nil
 }
 
+// Login godoc
+// @tags Login
+// @Accept  mpfd
+// @Produce  json
+// @Param identity formData string false  "Username/Email"
+// @Param password formData string false  "Password" Format(password)
+// @Router /auth/login/ [post]
 func Login(c *fiber.Ctx) error {
 	type LoginInput struct {
 		Identity string `json:"identity"`

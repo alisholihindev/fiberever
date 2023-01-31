@@ -104,7 +104,15 @@ func CreateUser(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"status": "success", "message": "Created user", "data": newUser})
 }
 
-// UpdateUser update user
+// EditUser godoc
+// @tags User
+// @accept  json
+// @produce  json
+// @Param user_id path int true "User ID"
+// @Param name formData string false "Name"
+// @success 200 {object} lib.OutputFormat{data=[]model.User}
+// @security BearerAuth
+// @Router /user/{user_id} [put]
 func UpdateUser(c *fiber.Ctx) error {
 	type UpdateUserInput struct {
 		Names string `json:"names"`
@@ -130,7 +138,15 @@ func UpdateUser(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"status": "success", "message": "User successfully updated", "data": user})
 }
 
-// DeleteUser delete user
+// Delete User godoc
+// @tags User
+// @Accept  json
+// @Produce  json
+// @Param user_id path int true "User ID"
+// @Param password formData string false  "Password" Format(password)
+// @Success 200 {object} lib.OutputFormat{Data=model.User}
+// @Security BearerAuth
+// @Router /user/{user_id} [delete]
 func DeleteUser(c *fiber.Ctx) error {
 	type PasswordInput struct {
 		Password string `json:"password"`

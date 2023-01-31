@@ -55,6 +55,25 @@ info:
   title: Swagger for Fiber-Ever
   version: "1.0"
 paths:
+  /auth/login/:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: Username/Email
+        in: formData
+        name: identity
+        type: string
+      - description: Password
+        format: password
+        in: formData
+        name: password
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      tags:
+      - Login
   /user/:
     post:
       consumes:
@@ -111,6 +130,68 @@ paths:
             - properties:
                 Data:
                   $ref: '#/definitions/model.User'
+              type: object
+      security:
+      - BearerAuth: []
+      tags:
+      - User
+  /user/{user_id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      - description: Password
+        format: password
+        in: formData
+        name: password
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/lib.OutputFormat'
+            - properties:
+                Data:
+                  $ref: '#/definitions/model.User'
+              type: object
+      security:
+      - BearerAuth: []
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      - description: Name
+        in: formData
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/lib.OutputFormat'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.User'
+                  type: array
               type: object
       security:
       - BearerAuth: []
