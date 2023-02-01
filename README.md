@@ -1,10 +1,12 @@
 # Fiberever
 
-> Go fiber base project (trying to be production ready).
+> GO-Fiber boilerplate
 
-## Stacks
+## Feature
 - Go
--Go Fiber
+- Go Fiber
+- JWT
+- Gorm
 
 ### LICENSE
 MIT
