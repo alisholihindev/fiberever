@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "fiberever/docs"
+	"fiberever/middleware"
 	"fiberever/model"
 	"fiberever/router"
 	"log"
@@ -9,7 +10,6 @@ import (
 	"github.com/alisholihindev/go-lib"
 	swagger "github.com/arsmn/fiber-swagger/v2"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 )
 
@@ -34,6 +34,8 @@ func main() {
 
 	app := fiber.New()
 
+	// Middlewares.
+	middleware.FiberMiddleware(app)
 	//establish pooling connection
 	lib.DBConn = lib.DBEstablish()
 
@@ -41,7 +43,7 @@ func main() {
 	app.Get("/swagger/*", swagger.HandlerDefault)
 
 	router.SetupRoutes(app)
-	app.Use(cors.New())
+	router.NotFoundRoute(app)
 
 	if err := lib.DBConn.AutoMigrate(&model.User{}); err != nil {
 		log.Fatalln(err)
